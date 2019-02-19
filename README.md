@@ -9,6 +9,7 @@ Related Graal issues
 - https://github.com/oracle/graal/issues/403
 - https://github.com/oracle/graal/issues/766
 - https://github.com/oracle/graal/issues/993
+- https://github.com/oracle/graal/issues/994
 
 So what you actually need to do to build and run JavaFX native image without errors
 ---------------
@@ -19,6 +20,8 @@ So what you actually need to do to build and run JavaFX native image without err
 - Set `--delay-class-initialization-to-runtime`, so Graal doesn't try to statically initialize the graphical toolkit. This one has ~2600 entries (it may be too much, though). I just kept adding more and more until there were no more build errors... It was a nightmare.
 - Patch `com.sun.javafx.logging.JFRLogger`, because SVM doesn't seem to support `com.oracle.jrockit.jfr.*`. It's some shitty private HotSpot API (?). This class seems to be just a logging utility, so I provided an empty implementation.
 - Patch `com.sun.glass.ui.Application`/`com.sun.glass.ui.mac.MacApplication`, because SVM doesn't seem to support getting base class static methods via JNI reflection from the child class. (https://github.com/oracle/graal/issues/993)
+
+By "patching" I mean copy pasting from `javafx-src.zip`, fixing and rebuilding inside the project. Then you have to ensure that your project's classpath is provided before the system one.
 
 
 How to run this experiment
