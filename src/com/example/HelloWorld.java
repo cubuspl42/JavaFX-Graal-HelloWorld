@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class HelloWorld extends Application {
     @Override
     public void start(Stage primaryStage) {
+        System.out.println("start");
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(event -> System.out.println("Hello World!"));
@@ -24,6 +25,7 @@ public class HelloWorld extends Application {
     }
 
     public static void main(String[] args) {
+        System.out.println("main");
         launch(args);
     }
 }
