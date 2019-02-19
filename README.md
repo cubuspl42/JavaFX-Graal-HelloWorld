@@ -13,6 +13,7 @@ Related Graal issues
 So what you actually need to do to build and run JavaFX native image without errors
 ---------------
 
+- Restart the native-image server before each build (`native-image --server-shutdown-all`)
 - Set `-H:ReflectionConfigurationFiles`, so right classes are available via reflection
 - Set `-H:JNIConfigurationFiles`, so right classes are available from JNI
 - Set `--delay-class-initialization-to-runtime`, so Graal doesn't try to statically initialize the graphical toolkit. This one has ~2600 entries (it may be too much, though). I just kept adding more and more until there were no more build errors... It was a nightmare.
