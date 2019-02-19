@@ -1,8 +1,10 @@
+set -x
 native-image --server-shutdown-all
 echo $JAVA_HOME
 native-image $1 \
 -H:ReflectionConfigurationFiles=reflectconfig.json \
 -H:JNIConfigurationFiles=jniconfig.json \
+-H:+ReportExceptionStackTraces \
 --delay-class-initialization-to-runtime=\
 com.sun.glass.ui.Accessible,\
 com.sun.glass.ui.Accessible\$EventHandler,\
@@ -2622,6 +2624,6 @@ javafx.scene.web.WebView\$StyleableProperties,\
 javafx.stage.Screen,\
 javafx.stage.Window \
 -Dprism.verbose=true \
--cp "./out/production/JavaFX-Graal-HelloWorld:$JAVA_HOME/jre/lib/deploy.jar:$JAVA_HOME/jre/lib/ext/jfxrt.jar" \
+-cp "./out/production/JavaFX-Graal-HelloWorld:$JAVA_HOME/jre/lib/deploy.jar:$JAVA_HOME/jre/lib/plugin.jar:$JAVA_HOME/jre/lib/ext/jfxrt.jar" \
 com.example.HelloWorld \
 helloworld
