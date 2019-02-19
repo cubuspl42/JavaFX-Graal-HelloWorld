@@ -8,14 +8,20 @@ Related Graal issues
 - https://github.com/oracle/graal/issues/365
 - https://github.com/oracle/graal/issues/403
 - https://github.com/oracle/graal/issues/766
+- https://github.com/oracle/graal/issues/993
 
-What does it do
+So what you actually need to do to build and run JavaFX native image without errors
 ---------------
 
-I tried to find proper values of `-H:ReflectionConfigurationFiles`, `-H:JNIConfigurationFiles` and `--delay-class-initialization-to-runtime`. It was a nightmare.
+- Set `-H:ReflectionConfigurationFiles`, so right classes are available via reflection
+- Set `-H:JNIConfigurationFiles`, so right classes are available from JNI
+- Set `--delay-class-initialization-to-runtime`, so Graal doesn't try to statically initialize the graphical toolkit. This one has ~2600 entries (it may be too much, though). I just kept adding more and more until there were no more build errors... It was a nightmare.
+- Patch `com.sun.javafx.logging.JFRLogger`, because SVM doesn't seem to support `com.oracle.jrockit.jfr.*`. It's some shitty private HotSpot API (?). This class seems to be just a logging utility, so I provided an empty implementation.
+- Patch `com.sun.glass.ui.Application`/`com.sun.glass.ui.mac.MacApplication`, because SVM doesn't seem to support getting base class static methods via JNI reflection from the child class. (https://github.com/oracle/graal/issues/993)
 
-Usage
------
+
+How to run this experiment
+--------------------------
 
 First, open the Intellij IDEA project and build it.
 
